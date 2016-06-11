@@ -1,0 +1,17 @@
+@charset "utf-8";
+/*
+Template Name: BusinessToday
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+File: Tables CSS
+*/
+
+.table{width:100%; border-collapse:collapse; table-layout:auto; vertical-align:top; margin-bottom:15px; border:1px solid #CCCCCC;}
+.light{color:#555555; background-color:#F666F7;}
+.dark{color:#699966; background-color:#E8E8E8;}
+
+h1{
+	color:red;
+}

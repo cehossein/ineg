@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+ 
+ 
+  
+	<context:component-scan base-package="net.javaonline.spring.product.controller, net.javaonline.spring.product.dao" />
+ 
+     <bean id="itemMasterDao" class="net.javaonline.spring.product.dao.ItemMasterDAOImpl">
+    	<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+<!--	
+	<bean id="userDao" class="net.javaonline.spring.product.dao.UserDAOImpl">
+    	<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="individualDescriptionDao" class="net.javaonline.spring.product.dao.IndividualDescriptionDAOImpl">
+    	<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="contactDescriptionDao" class="net.javaonline.spring.product.dao.ContactDescriptionDAOImpl">
+    	<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="resumeDao" class="net.javaonline.spring.product.dao.ResumeDAOImpl">
+    	<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="resumeDao" class="net.javaonline.spring.product.dao.ResumeDAOImpl">
+    	<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean> -->
+	
+	<bean id="userDAO" class="net.javaonline.spring.product.dao.UserDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	
+	<bean id="resumeDAO" class="net.javaonline.spring.product.dao.ResumeDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="individualDescriptionDAO" class="net.javaonline.spring.product.dao.IndividualDescriptionDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="contactDescriptionDAO" class="net.javaonline.spring.product.dao.ContactDescriptionDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="workHistoryDAO" class="net.javaonline.spring.product.dao.WorkHistoryDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="educationalHistoryDAO" class="net.javaonline.spring.product.dao.EducationalHistoryDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
+	<bean id="userService" class="net.javaonline.spring.product.service.UserServiceImpl">
+		<property name="userDAO" ref="userDAO"></property>
+	</bean>
+	
+	<bean id="individualDescriptionService" class="net.javaonline.spring.product.service.IndividualDescriptionServiceImpl">
+		<property name="individualDescriptionDAO" ref="individualDescriptionDAO"></property>
+	</bean>
+	
+	<bean id="contactDescriptionService" class="net.javaonline.spring.product.service.ContactDescriptionServiceImpl">
+		<property name="contactDescriptionDAO" ref="contactDescriptionDAO"></property>
+	</bean>
+	
+	<bean id="resumeService" class="net.javaonline.spring.product.service.ResumeServiceImpl">
+		<property name="resumeDAO" ref="resumeDAO"></property>
+	</bean>
+	
+	<bean id="workHistoryService" class="net.javaonline.spring.product.service.WorkHistoryServiceImpl">
+		<property name="workHistoryDAO" ref="workHistoryDAO"></property>
+	</bean>
+	
+	<bean id="educationalHistoryService" class="net.javaonline.spring.product.service.EducationalHistoryServiceImpl">
+		<property name="educationalHistoryDAO" ref="educationalHistoryDAO"></property>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/cedb" />
+        <property name="username" value="root" />
+        <property name="password" value="1234" />
+    </bean>
+    
+	   
+	 <bean id="sessionFactory"    class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="configLocation" value="classpath:hibernate.cfg.xml" />
+    </bean>
+	   
+    
+    <tx:annotation-driven /> 
+	<bean id="transactionManager"   class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/Pages/"></property>
+        <property name="suffix" value=".jsp"></property>        
+    </bean>
+    
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+	
+     <mvc:annotation-driven />
+ 	  
+</beans>
