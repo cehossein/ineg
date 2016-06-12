@@ -12,5 +12,5 @@ public interface ContactDescriptionService {
 	public List<ContactDescription> list();   
 	public ContactDescription getById(int id);
 	public void remove(int id);
-	public void updateByNameAndObject(String name,ContactDescription c);
+	public void updateByIdAndObject(int resume_id,ContactDescription c);
 }

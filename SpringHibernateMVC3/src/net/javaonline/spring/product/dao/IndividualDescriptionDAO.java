@@ -8,7 +8,7 @@ public interface IndividualDescriptionDAO {
 
 	public void add(IndividualDescription i);
 	public void update(IndividualDescription i);
-	public void updateByNameAndObject(String name,IndividualDescription i);
+	public void updateByIdAndObject(int resume_id,IndividualDescription i);
 	public List<IndividualDescription> list();   ///
 	public IndividualDescription getById(int id);
 	public void remove(int id);

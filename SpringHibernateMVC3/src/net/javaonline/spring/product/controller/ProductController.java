@@ -449,7 +449,7 @@ private EducationalHistoryService educationalHistoryService;
 				    model.addObject("resume_id", resume_id);
 				    model.addObject("type", type);
 				    
-				    individualDescriptionService.updateByNameAndObject(username, individualDescription);
+				    individualDescriptionService.updateByIdAndObject(resume_id, individualDescription);
 	        		/*OK*/
 		        }
 		        return model;
@@ -482,20 +482,12 @@ private EducationalHistoryService educationalHistoryService;
 		    model.addObject("resume_id", resume_id);
 		    model.addObject("type", type);
 		    
-		    contactDescriptionService.updateByNameAndObject(username, contactDescription);
+		    contactDescriptionService.updateByIdAndObject(resume_id, contactDescription);
         }
         return model;
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
 		  
 		@RequestMapping(value="/updateOther",method = RequestMethod.POST)
 		public ModelAndView updateOther(@ModelAttribute("user") User user , HttpSession httpSession) {

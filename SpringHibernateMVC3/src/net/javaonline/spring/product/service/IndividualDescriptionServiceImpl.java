@@ -45,7 +45,7 @@ public class IndividualDescriptionServiceImpl implements IndividualDescriptionSe
 	}
 
 	@Override
-	public void updateByNameAndObject(String name,IndividualDescription i){
-		this.individualDescriptionDAO.updateByNameAndObject(name,i);
+	public void updateByIdAndObject(int resume_id,IndividualDescription i){
+		this.individualDescriptionDAO.updateByIdAndObject(resume_id,i);
 	}
 }

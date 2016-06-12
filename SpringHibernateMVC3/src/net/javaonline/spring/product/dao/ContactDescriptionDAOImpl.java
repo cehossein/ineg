@@ -108,15 +108,15 @@ public class ContactDescriptionDAOImpl implements ContactDescriptionDAO {
 	}
 	
 	@Override
-	public void updateByNameAndObject(String name, ContactDescription c) {
+	public void updateByIdAndObject(int resume_id, ContactDescription c) {
 		Session session = sessionFactory.getCurrentSession();
 		ContactDescription p = null ;
 		try {
 			session.beginTransaction();
-			String sql = "select c.*"+" from contact_description c inner join resume r on c.id = r.id inner join user u on r.id = u.resume_id"+
-			" where u.username = '" + name + "';";
+			String sql = "select c.*"+" from contact_description c inner join resume r on c.id = r.cont_id"+
+			" where r.id = '" + resume_id + "';";
 			SQLQuery query = session.createSQLQuery(sql).addEntity(ContactDescription.class);
-			p = (ContactDescription) query.list().get(0);
+			p = (ContactDescription) query.uniqueResult();
 			p.setAddress(c.getAddress());
 			p.setEmail(c.getEmail());
 			p.setPhone(c.getPhone());

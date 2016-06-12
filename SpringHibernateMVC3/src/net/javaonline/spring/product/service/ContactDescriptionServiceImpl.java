@@ -45,7 +45,7 @@ public class ContactDescriptionServiceImpl implements ContactDescriptionService 
 	}
 	
 	@Override
-	public void updateByNameAndObject(String name,ContactDescription c){
-		this.contactDescriptionDAO.updateByNameAndObject(name,c);
+	public void updateByIdAndObject(int resume_id,ContactDescription c){
+		this.contactDescriptionDAO.updateByIdAndObject(resume_id,c);
 	}
 }

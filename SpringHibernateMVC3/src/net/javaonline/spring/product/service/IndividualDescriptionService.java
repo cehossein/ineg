@@ -11,5 +11,5 @@ public interface IndividualDescriptionService {
 	public List<IndividualDescription> list();   
 	public IndividualDescription getById(int id);
 	public void remove(int id);
-	public void updateByNameAndObject(String name,IndividualDescription i);
+	public void updateByIdAndObject(int resume_id,IndividualDescription i);
 }

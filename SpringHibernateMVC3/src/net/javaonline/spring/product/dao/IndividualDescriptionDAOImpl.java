@@ -107,15 +107,15 @@ public class IndividualDescriptionDAOImpl implements IndividualDescriptionDAO {
 	}
 	
 	@Override
-	public void updateByNameAndObject(String name, IndividualDescription c) {
+	public void updateByIdAndObject(int resume_id, IndividualDescription c) {
 		Session session = sessionFactory.getCurrentSession();
 		IndividualDescription p = null ;
 		try {
 			session.beginTransaction();
-			String sql = "select i.*"+" from individual_description i inner join resume r on i.id = r.id inner join user u on r.id = u.resume_id"+
-			" where u.username = '" + name + "';";
+			String sql = "select i.*"+" from individual_description i inner join resume r on i.id = r.indi_id"+
+			" where r.id = '" + resume_id + "';";
 			SQLQuery query = session.createSQLQuery(sql).addEntity(IndividualDescription.class);
-			p = (IndividualDescription) query.list().get(0);
+			p = (IndividualDescription) query.uniqueResult();
 			p.setEmail(c.getEmail());
 			p.setLastname(c.getLastname());
 			p.setMarriagestatus(c.getMarriagestatus());
