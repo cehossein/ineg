@@ -405,6 +405,24 @@ private EducationalHistoryService educationalHistoryService;
 		  
 		  
 		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
 		@RequestMapping(value="/updateIndividualDescription",method = RequestMethod.POST)
 		public ModelAndView updateIndividualDescription(@ModelAttribute("user") User user , HttpSession httpSession) {
 		    ModelAndView model = new ModelAndView("updateIndividualDescription");
@@ -468,6 +486,16 @@ private EducationalHistoryService educationalHistoryService;
         }
         return model;
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 		  
 		@RequestMapping(value="/updateOther",method = RequestMethod.POST)
 		public ModelAndView updateOther(@ModelAttribute("user") User user , HttpSession httpSession) {

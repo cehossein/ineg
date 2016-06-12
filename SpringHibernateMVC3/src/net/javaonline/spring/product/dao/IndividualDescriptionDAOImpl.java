@@ -44,6 +44,8 @@ public class IndividualDescriptionDAOImpl implements IndividualDescriptionDAO {
 
 	@Override
 	public void update(IndividualDescription p) {
+		/*Session session = this.sessionFactory.getCurrentSession();
+		session.update(p);*/
 		Session session = sessionFactory.getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -52,7 +54,7 @@ public class IndividualDescriptionDAOImpl implements IndividualDescriptionDAO {
 				e.printStackTrace();
 				session.getTransaction().rollback();
 			}
-		session.getTransaction().commit();	
+		session.getTransaction().commit();
 		
 	}
 
@@ -77,17 +79,17 @@ public class IndividualDescriptionDAOImpl implements IndividualDescriptionDAO {
 	@Override
 	public IndividualDescription getById(int id) {
 		Session session = sessionFactory.getCurrentSession();
-		IndividualDescription individualDescription=null;
+		IndividualDescription item=null;
 		try {
 			session.beginTransaction();
-			individualDescription = (IndividualDescription) session.get(IndividualDescription.class, id);
+		    item = (IndividualDescription) session.get(IndividualDescription.class, id);
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}
 		session.getTransaction().commit();
 		
-		return individualDescription;
+		return item;
 	}
 	
 
@@ -95,17 +97,43 @@ public class IndividualDescriptionDAOImpl implements IndividualDescriptionDAO {
 	public void remove(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
-		IndividualDescription individualDescription = (IndividualDescription) session.get(IndividualDescription.class, id);
-		if(null != individualDescription) {
-			session.delete(individualDescription);
+		IndividualDescription item = (IndividualDescription) session.get(IndividualDescription.class, id);
+		if(null != item) {
+			session.delete(item);
 		}
 		session.getTransaction().commit();
 		
 		//return item;
 	}
 	
+	@Override
+	public void updateByNameAndObject(String name, IndividualDescription c) {
+		Session session = sessionFactory.getCurrentSession();
+		IndividualDescription p = null ;
+		try {
+			session.beginTransaction();
+			String sql = "select i.*"+" from individual_description i inner join resume r on i.id = r.id inner join user u on r.id = u.resume_id"+
+			" where u.username = '" + name + "';";
+			SQLQuery query = session.createSQLQuery(sql).addEntity(IndividualDescription.class);
+			p = (IndividualDescription) query.list().get(0);
+			p.setEmail(c.getEmail());
+			p.setLastname(c.getLastname());
+			p.setMarriagestatus(c.getMarriagestatus());
+			p.setName(c.getName());
+			p.setSex(c.getSex());
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		
+		
+	}
+
+	
 /*	@Override
-	public void save(IndividualDescription p) {
+	public void save(ContactDescription p) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.persist(p);
@@ -114,35 +142,11 @@ public class IndividualDescriptionDAOImpl implements IndividualDescriptionDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<IndividualDescription> list() {
+	public List<ContactDescription> list() {
 		Session session = sessionFactory.openSession();
-		List<IndividualDescription> UserList = session.createQuery("from IndividualDescription").list();
+		List<ContactDescription> ContactDescriptionList = session.createQuery("from ContactDescription").list();
 		session.close();
-		return UserList;
+		return ContactDescriptionList;
 	}
 */
-	@Override
-	public void updateByNameAndObject(String name, IndividualDescription i) {
-		Session session = sessionFactory.getCurrentSession();
-		IndividualDescription p = null ;
-		try {
-			session.beginTransaction();
-			String sql = "select i.*"+" from individual_description i inner join resume r on i.id = r.id inner join user u on r.id = u.resume_id"+
-			" where u.username = '" + name + "';";
-			SQLQuery query = session.createSQLQuery(sql).addEntity(IndividualDescription.class);
-			p = (IndividualDescription) query.uniqueResult();
-			p.setEmail(i.getEmail());
-			p.setLastname(i.getLastname());
-			p.setMarriagestatus(i.getMarriagestatus());
-			p.setName(i.getName());
-			p.setSex(i.getSex());
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
-		
-		
-	}
-
 }
