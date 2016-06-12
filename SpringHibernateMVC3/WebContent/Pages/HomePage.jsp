@@ -77,6 +77,17 @@ The Hidden Value is <%=hidden %> --%>
         	</table> 
     		</form:form>
     					 
+    		<form:form method="POST" modelAttribute="user" action="updateEducationalHistory"> 
+              <table> 
+              	<tr>               
+ 				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 
+				</tr>
+            	<tr>
+                <td><input type="submit"  value="Click to Update Your Educational History"></td> 
+           		 </tr>
+            	
+        	</table> 
+    		</form:form>
     					 
     		<form:form method="POST" modelAttribute="user" action="searchInAdvertise"> 
               <table> 
