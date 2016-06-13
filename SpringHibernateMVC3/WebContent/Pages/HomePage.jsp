@@ -88,6 +88,18 @@ The Hidden Value is <%=hidden %> --%>
             	
         	</table> 
     		</form:form>
+    		
+    		<form:form method="POST" modelAttribute="user" action="updateSkills"> 
+              <table> 
+              	<tr>               
+ 				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 
+				</tr>
+            	<tr>
+                <td><input type="submit"  value="Click to Update Your Skills"></td> 
+           		 </tr>
+            	
+        	</table> 
+    		</form:form>
     					 
     		<form:form method="POST" modelAttribute="user" action="searchInAdvertise"> 
               <table> 
@@ -114,9 +126,58 @@ The Hidden Value is <%=hidden %> --%>
     		</form:form>
 		</div>
 	<% }else{  %>
-		<div id = "Employer" > 
-			
-			EmPLOYER 
+		<div id = "Employer"  align="center">
+			 
+			<form:form method="POST" modelAttribute="user" action="updateIndividualDescription"> 
+              <table> 
+              	<tr>               
+ 				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 
+				</tr>
+            	<tr>
+                <td><input type="submit"  value="Click to Update Individual Description"></td> 
+           		</tr>
+            	
+        	</table> 
+    		</form:form> 
+    		
+    		<form:form method="POST" modelAttribute="user" action="updateContactDescription"> 
+              <table> 
+              	<tr>               
+ 				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 
+				</tr>
+            	<tr>
+                <td><input type="submit"  value="Click to Create Home Page For Your Company"></td> 
+           		</tr>
+            	
+        	</table> 
+    		</form:form>
+    		
+    		
+    		<form:form method="POST" modelAttribute="user" action="updateWorkHistory"> 
+              <table> 
+              	<tr>               
+ 				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 
+				</tr>
+            	<tr>
+                <td><input type="submit"  value="Click to Update Your Work History"></td> 
+           		 </tr>
+            	
+        	</table> 
+    		</form:form>
+    		
+    		
+    					 
+    		<form:form method="POST" modelAttribute="user" action=""> 
+              <table> 
+              	<tr>               
+ 				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 
+				</tr>
+            	<tr>
+                <td><input type="submit"  value="Click to Serach in Resumes"></td> 
+           		 </tr>
+            	
+        	</table> 
+    		</form:form>
 		</div>
 	<%}; %>
 </body>

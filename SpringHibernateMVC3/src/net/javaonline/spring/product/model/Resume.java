@@ -1,14 +1,16 @@
 package net.javaonline.spring.product.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -42,6 +44,7 @@ public class Resume implements Serializable{
     @ManyToOne(optional = false)
     @JoinColumn(name ="cont_id")
     private ContactDescription contactDescription;
+
 
 	public Resume() {
 		super();
@@ -101,7 +104,5 @@ public class Resume implements Serializable{
 	public void setContactDescription(ContactDescription contactDescription) {
 		this.contactDescription = contactDescription;
 	}
-    
-    
-	
+
 }

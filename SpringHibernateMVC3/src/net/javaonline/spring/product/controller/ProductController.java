@@ -2,7 +2,9 @@ package net.javaonline.spring.product.controller;
 
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,12 +23,14 @@ import net.javaonline.spring.product.model.EducationalHistory;
 import net.javaonline.spring.product.model.IndividualDescription;
 import net.javaonline.spring.product.model.ItemMaster;
 import net.javaonline.spring.product.model.Resume;
+import net.javaonline.spring.product.model.Skill;
 import net.javaonline.spring.product.model.User;
 import net.javaonline.spring.product.model.WorkHistory;
 import net.javaonline.spring.product.service.ContactDescriptionService;
 import net.javaonline.spring.product.service.EducationalHistoryService;
 import net.javaonline.spring.product.service.IndividualDescriptionService;
 import net.javaonline.spring.product.service.ResumeService;
+import net.javaonline.spring.product.service.SkillService;
 import net.javaonline.spring.product.service.UserService;
 import net.javaonline.spring.product.service.WorkHistoryService;
 
@@ -84,7 +88,13 @@ private EducationalHistoryService educationalHistoryService;
 		this.educationalHistoryService = es;
 	}
 	
+private SkillService skillService;
 	
+	@Autowired(required=true)
+	@Qualifier(value="skillService")
+	public void setSkillService(SkillService ss){
+		this.skillService = ss;
+	}	
 	
 	
 	  @RequestMapping(value="/list")
@@ -169,6 +179,136 @@ private EducationalHistoryService educationalHistoryService;
 	    }
 	 
 		
+		//Skill
+		
+		@RequestMapping(value="/deleteSkills")
+	    public ModelAndView deleteSkills(@RequestParam(value="id", required=true) int id
+	    		, HttpSession httpSession) {
+	        ModelAndView model = new ModelAndView("updateSkills");
+
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+	        skillService.remove(id,resume_id);
+	        List<Skill> skills = skillService.list(resume_id);
+	        model.addObject("item", new Skill());
+		    model.addObject("itemList", skills);
+		    
+	        return model;
+	    }
+	
+	
+	@RequestMapping(value="/executeUpdateSkillsAdd",method = RequestMethod.POST)
+	public ModelAndView executeUpdateSkillsAdd(@ModelAttribute("additem") Skill additem, HttpSession httpSession) {
+		ModelAndView model = new ModelAndView("updateSkills");
+
+	    String username = (String) httpSession.getAttribute("username");
+	    int resume_id = (int) httpSession.getAttribute("resume_id");
+	    String type = (String) httpSession.getAttribute("type");
+	    model.addObject("username", username);
+	    model.addObject("resume_id", resume_id);
+	    model.addObject("type", type);
+	    
+		skillService.add(additem,resume_id);
+		List<Skill> skills = skillService.list(resume_id);
+	    model.addObject("item", new Skill());
+	    model.addObject("itemList", skills);
+	    
+	    return model;
+	}
+	
+	
+	@RequestMapping(value="/executeUpdateSkillsUpdate",method = RequestMethod.POST)
+	public ModelAndView executeUpdateSkillsUpdate(@ModelAttribute("item") Skill item, HttpSession httpSession) {
+		Skill skill = (Skill) httpSession.getAttribute("exist_item");
+		ModelAndView model = new ModelAndView("updateSkills");
+
+	    String username = (String) httpSession.getAttribute("username");
+	    int resume_id = (int) httpSession.getAttribute("resume_id");
+	    String type = (String) httpSession.getAttribute("type");
+	    model.addObject("username", username);
+	    model.addObject("resume_id", resume_id);
+	    model.addObject("type", type);
+	    
+		skillService.remove(skill.getId(),resume_id);
+		skillService.add(item,resume_id);
+		List<Skill> skills = skillService.list(resume_id);
+	    model.addObject("item", new Skill());
+	    model.addObject("itemList", skills);
+	    return model;
+	}
+	
+	
+	
+			@RequestMapping(value="/updateSkills",method = RequestMethod.POST)
+	public ModelAndView updateSkills(@ModelAttribute("user") User user, HttpSession httpSession) {
+	    ModelAndView model = new ModelAndView("updateSkills");
+	   
+	    String username = (String) httpSession.getAttribute("username");
+	    int resume_id = (int) httpSession.getAttribute("resume_id");
+	    String type = (String) httpSession.getAttribute("type");
+	    model.addObject("username", username);
+	    model.addObject("resume_id", resume_id);
+	    model.addObject("type", type);
+	    
+	    Skill skill = new Skill();
+	    List<Skill> skills = skillService.list(resume_id);
+	    model.addObject("item", skill);
+	    model.addObject("itemList", skills);
+	    
+        return model;
+	}
+	
+
+	  @RequestMapping(value="/editSkills")
+	    public ModelAndView editSkills(@RequestParam(value="id", required=true) int id
+	    		, HttpSession httpSession) {
+	        ModelAndView model = new ModelAndView("updateSkills");
+
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+			  List<Skill> skills = skillService.list(resume_id);
+		        Skill skill = skillService.getById(id, resume_id);
+		        model.addObject("item", skill);
+			    model.addObject("itemList", skills);
+		    
+	        return model;
+	    }
+
+
+	  //End Skill
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -179,7 +319,7 @@ private EducationalHistoryService educationalHistoryService;
 		    		,@RequestParam(value="grade", required=true) String grade 
 		    		,@RequestParam(value="academicorientation", required=true) String academicorientation
 		    		, HttpSession httpSession) {
-		        ModelAndView model = new ModelAndView("updateEducaionalHistory");
+		        ModelAndView model = new ModelAndView("updateEducationalHistory");
 
 			    String username = (String) httpSession.getAttribute("username");
 			    int resume_id = (int) httpSession.getAttribute("resume_id");
@@ -529,15 +669,18 @@ private EducationalHistoryService educationalHistoryService;
 		  Resume resume = new Resume(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
 		  WorkHistory workHistory = new WorkHistory(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
 		  EducationalHistory educationalHistory = new EducationalHistory(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+		  Skill skill = new Skill(invalidInitialParameter);
 		  resume.setIndividualDescription(individualDescription);
 		  resume.setContactDescription(contactDescription);
 		  workHistory.setResume(resume);
+		  skill.setResume(resume);
 		  educationalHistory.setResume(resume);
 		  user.setResume(resume);
 		  individualDescriptionService.add(individualDescription);
 		  contactDescriptionService.add(contactDescription);
 		  resumeService.add(resume);
 		  workHistoryService.add(workHistory);
+		  skillService.add(skill);
 		  educationalHistoryService.add(educationalHistory);
 	        if(null != user ) 
 	        	userService.add(user);

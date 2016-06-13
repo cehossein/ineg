@@ -92,6 +92,12 @@
     	</constructor-arg>
 	</bean>
 	
+	<bean id="skillDAO" class="net.javaonline.spring.product.dao.SkillDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
 	<bean id="userService" class="net.javaonline.spring.product.service.UserServiceImpl">
 		<property name="userDAO" ref="userDAO"></property>
 	</bean>
@@ -114,6 +120,10 @@
 	
 	<bean id="educationalHistoryService" class="net.javaonline.spring.product.service.EducationalHistoryServiceImpl">
 		<property name="educationalHistoryDAO" ref="educationalHistoryDAO"></property>
+	</bean>
+	
+	<bean id="skillService" class="net.javaonline.spring.product.service.SkillServiceImpl">
+		<property name="skillDAO" ref="skillDAO"></property>
 	</bean>
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">

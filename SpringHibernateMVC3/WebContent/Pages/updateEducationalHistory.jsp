@@ -112,9 +112,7 @@
                     <td>${item.finishdate}</td>
                     <td>${item.average}</td>
                     <td><a href="editEducationalHistory?studyfield=${item.studyfield}&grade=${item.grade}&academicorientation=${item.academicorientation}">Edit</a></td>  
-                   <!--  url mishe : 
-                    edit?id=....  injori mikhad parameter ha ro daste 
-                    controller edit beresone -->
+                   
     				<td><a href="deleteEducationalHistory?studyfield=${item.studyfield}&grade=${item.grade}&academicorientation=${item.academicorientation}">Delete</a></td>  
                              
                 </tr>
