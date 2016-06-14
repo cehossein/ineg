@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.javaonline.spring.product.dao.SkillDAO;
+import net.javaonline.spring.product.model.Resume;
 import net.javaonline.spring.product.model.Skill;
 
 @Transactional
@@ -37,6 +38,11 @@ public class SkillServiceImpl implements SkillService {
 	public List<Skill> list(int resume_id) {
 		return this.skillDAO.list(resume_id);
 	}
+	
+	@Override
+	public List<Resume> list(String skill_name) {
+		return this.skillDAO.list(skill_name);
+	}
 
 	@Override
 	public Skill getById(int skill_id,int resume_id) {
@@ -47,6 +53,8 @@ public class SkillServiceImpl implements SkillService {
 	public void remove(int skill_id,int resume_id) {
 		this.skillDAO.remove(skill_id,resume_id);
 	}
+
+
 	
 /*	@Override
 	public void updateByNameAndObject(String name,WorkHistory c){

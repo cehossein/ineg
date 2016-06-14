@@ -3,12 +3,12 @@ package net.javaonline.spring.product.dao;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.javaonline.spring.product.model.Resume;
 import net.javaonline.spring.product.model.Skill;
 
 @Transactional
@@ -135,6 +135,28 @@ public class SkillDAOImpl implements SkillDAO {
 		
 		//return item;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Resume> list(String skill_name) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Resume> items = null;
+		try {
+			session.beginTransaction();
+			String sql = "select resume.*"+" from resume inner join skill on resume.id = skill.resume_id"+
+			" where skill.name = '" + skill_name + "';";
+			
+			items = (List<Resume>)session.createSQLQuery(sql).addEntity(Resume.class).list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		
+		return items;
+	}
+	
 	
 /*	@Override/////////////////
 	public void updateByNameAndObject(String name, Skill c) {

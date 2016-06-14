@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -178,6 +180,27 @@ private SkillService skillService;
 	        return model;
 	    }
 	 
+		
+		@RequestMapping(value="/searchResumesBySkill")
+	    public ModelAndView searchResumesBySkill(HttpSession httpSession ,HttpServletRequest httpServletRequest) {
+	        ModelAndView model = new ModelAndView("SearchResumeResult");
+
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+		    
+		   String search_word = httpServletRequest.getParameter("search_word");
+	       System.err.println("---------------> search_word" + httpServletRequest.getParameter("search_word"));
+	       List<Resume> resumes  = skillService.list(search_word);
+	       model.addObject("item", new Resume());
+		   model.addObject("itemList",resumes);
+		    
+	        return model;
+	    }
 		
 		//Skill
 		
@@ -709,6 +732,7 @@ private SkillService skillService;
 		    model.addObject("username", username);
 		    model.addObject("resume_id", resume_id);
 		    model.addObject("type", type);
+		    
 		    
 	        return model;
 	    }

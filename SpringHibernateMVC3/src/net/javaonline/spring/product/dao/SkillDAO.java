@@ -3,6 +3,7 @@ package net.javaonline.spring.product.dao;
 import java.util.List;
 import java.util.Set;
 
+import net.javaonline.spring.product.model.Resume;
 import net.javaonline.spring.product.model.Skill;
 
 
@@ -17,4 +18,5 @@ public interface SkillDAO {
 	//public void updateByIdAndObject(int name,Skill r);
 	void add(Skill p);
 	void add(Skill p, int resume_id);
+	List<Resume> list(String skill_name);
 }

@@ -20,8 +20,8 @@ The Hidden Value is <%=hidden %> --%>
 	<% session.setAttribute("username",username); %>
 	<% session.setAttribute("type",type); %>
 	<% int resume_id = (int)request.getAttribute("resume_id");%>
-	<% session.setAttribute("resume_id",(Integer)resume_id); %>
-	
+	<% session.setAttribute("resume_id",(Integer)resume_id);%>
+
 	<% if(type.equals("Employee")) {%>
 	
 		<div id = "Employee"  align="center">
@@ -166,18 +166,19 @@ The Hidden Value is <%=hidden %> --%>
     		</form:form>
     		
     		
-    					 
-    		<form:form method="POST" modelAttribute="user" action=""> 
-              <table> 
-              	<tr>               
- 				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 
-				</tr>
-            	<tr>
-                <td><input type="submit"  value="Click to Serach in Resumes"></td> 
-           		 </tr>
-            	
-        	</table> 
-    		</form:form>
+    		<div id="resume_search">
+    		<p>Click to Search in Resumes</p>
+    		</div>
+
+    		
+    		
+    		<div>
+    		<form action="searchResumesBySkill">
+    		<input type = "text"  name = "search_word" />
+    		<input type = "submit" value = "Search" />
+    		</form>
+    		
+    		</div>
 		</div>
 	<%}; %>
 </body>
