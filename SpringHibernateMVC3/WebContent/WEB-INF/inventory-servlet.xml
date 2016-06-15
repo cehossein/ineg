@@ -98,6 +98,12 @@
     	</constructor-arg>
 	</bean>
 	
+	<bean id="advertiseDAO" class="net.javaonline.spring.product.dao.AdvertiseDAOImpl">
+		<constructor-arg>
+        	<ref bean="sessionFactory" />
+    	</constructor-arg>
+	</bean>
+	
 	<bean id="userService" class="net.javaonline.spring.product.service.UserServiceImpl">
 		<property name="userDAO" ref="userDAO"></property>
 	</bean>
@@ -124,6 +130,10 @@
 	
 	<bean id="skillService" class="net.javaonline.spring.product.service.SkillServiceImpl">
 		<property name="skillDAO" ref="skillDAO"></property>
+	</bean>
+	
+	<bean id="advertiseService" class="net.javaonline.spring.product.service.AdvertiseServiceImpl">
+		<property name="advertiseDAO" ref="advertiseDAO"></property>
 	</bean>
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">

@@ -164,7 +164,10 @@ The Hidden Value is <%=hidden %> --%>
             	
         	</table> 
     		</form:form>
-    		
+    		<div>Click to Create an Advertise</div>
+    		<div>
+    		<a href = "contactDescription" > First Please Create Contact Description</a>
+    		</div>
     		
     		<div id="resume_search">
     		<p>Click to Search in Resumes</p>

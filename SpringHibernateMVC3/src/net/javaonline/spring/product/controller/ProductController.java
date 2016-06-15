@@ -2,9 +2,7 @@ package net.javaonline.spring.product.controller;
 
 
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.javaonline.spring.product.dao.ItemMasterDAO;
+import net.javaonline.spring.product.model.Advertise;
 import net.javaonline.spring.product.model.ContactDescription;
 import net.javaonline.spring.product.model.EducationalHistory;
 import net.javaonline.spring.product.model.IndividualDescription;
@@ -28,6 +26,7 @@ import net.javaonline.spring.product.model.Resume;
 import net.javaonline.spring.product.model.Skill;
 import net.javaonline.spring.product.model.User;
 import net.javaonline.spring.product.model.WorkHistory;
+import net.javaonline.spring.product.service.AdvertiseService;
 import net.javaonline.spring.product.service.ContactDescriptionService;
 import net.javaonline.spring.product.service.EducationalHistoryService;
 import net.javaonline.spring.product.service.IndividualDescriptionService;
@@ -96,7 +95,15 @@ private SkillService skillService;
 	@Qualifier(value="skillService")
 	public void setSkillService(SkillService ss){
 		this.skillService = ss;
-	}	
+	}
+	
+private AdvertiseService advertiseService;
+	
+	@Autowired(required=true)
+	@Qualifier(value="advertiseService")
+	public void setAdvertiseService(AdvertiseService as){
+		this.advertiseService = as;
+	}
 	
 	
 	  @RequestMapping(value="/list")
@@ -180,6 +187,97 @@ private SkillService skillService;
 	        return model;
 	    }
 	 
+		@RequestMapping(value="/contactDescription")
+		public ModelAndView contactDescription(HttpSession httpSession) {
+		    ModelAndView model = new ModelAndView("contactDescription");
+		   
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+	        return model;
+		}
+		
+		
+		@RequestMapping(value="/createContactDescription",method = RequestMethod.POST)
+		public ModelAndView createContactDescription(@ModelAttribute("contactDescription") ContactDescription contactDescription, HttpSession httpSession) {
+		    ModelAndView model = new ModelAndView("otherPropertiesInAdv");
+		   
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+		    int contactDescrptionId;
+		    contactDescriptionService.add(contactDescription);
+		    contactDescrptionId = contactDescriptionService.search(contactDescription);
+		    
+		    model.addObject("contactDescrptionId" , contactDescrptionId);
+	        return model;
+		}
+		
+		
+		
+		@RequestMapping(value="/executeCreateOtherProperties",method = RequestMethod.POST)
+		public ModelAndView executeCreateOtherProperties(@ModelAttribute("advertise") Advertise advertise, HttpSession httpSession) {
+		    ModelAndView model = new ModelAndView("HomePage");//
+		   
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    int contactDescrptionId = (int) httpSession.getAttribute("contactDescrptionId");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+		    System.err.println("----------------->" + advertise.getAdvText());
+		    System.err.println("----------------->" + advertise.getCityName());
+		    System.err.println("----------------->" + advertise.getCoName());
+
+		    advertiseService.add(advertise, resume_id , contactDescrptionId);
+	        return model;
+		}
+		
+/*		
+		@RequestMapping(value="/otherPropertiesInAdv",method = RequestMethod.POST)
+		public ModelAndView otherPropertiesInAdv(HttpSession httpSession) {
+		    ModelAndView model = new ModelAndView("otherPropertiesInAdv");
+		   
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+	        return model;
+		}
+		
+		@RequestMapping(value="/executeCreateOtherProperties",method = RequestMethod.POST)
+		public ModelAndView executeCreateOtherProperties(@ModelAttribute("advertise") Advertise advertise, HttpSession httpSession) {
+		    ModelAndView model = new ModelAndView("createAdv");
+		   
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    
+		    advertiseService.add(advertise, resume_id);
+		    
+		    
+		    
+	        return model;
+		}*/
+		
+		
+		
 		
 		@RequestMapping(value="/searchResumesBySkill")
 	    public ModelAndView searchResumesBySkill(HttpSession httpSession ,HttpServletRequest httpServletRequest) {
@@ -687,25 +785,55 @@ private SkillService skillService;
 	  @RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	    public ModelAndView signUp(@ModelAttribute("user") User user) {
 		  String invalidInitialParameter = "Invalid Content";
-		  IndividualDescription individualDescription = new IndividualDescription(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
-		  ContactDescription contactDescription = new ContactDescription(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
-		  Resume resume = new Resume(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
-		  WorkHistory workHistory = new WorkHistory(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
-		  EducationalHistory educationalHistory = new EducationalHistory(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
-		  Skill skill = new Skill(invalidInitialParameter);
-		  resume.setIndividualDescription(individualDescription);
-		  resume.setContactDescription(contactDescription);
-		  workHistory.setResume(resume);
-		  skill.setResume(resume);
-		  educationalHistory.setResume(resume);
-		  user.setResume(resume);
-		  individualDescriptionService.add(individualDescription);
-		  contactDescriptionService.add(contactDescription);
-		  resumeService.add(resume);
-		  workHistoryService.add(workHistory);
-		  skillService.add(skill);
-		  educationalHistoryService.add(educationalHistory);
-	        if(null != user ) 
+		  String type = user.getType();
+		  
+		  if(type.equals("Employee")){
+			  
+			  IndividualDescription individualDescription = new IndividualDescription(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  ContactDescription contactDescription = new ContactDescription(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  WorkHistory workHistory = new WorkHistory(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  EducationalHistory educationalHistory = new EducationalHistory(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  Skill skill = new Skill(invalidInitialParameter);
+			  Resume resume = new Resume(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			 
+			  resume.setIndividualDescription(individualDescription);
+			  resume.setContactDescription(contactDescription);
+			  workHistory.setResume(resume);
+			  skill.setResume(resume);
+			  educationalHistory.setResume(resume);
+			  user.setResume(resume);
+			  
+			  individualDescriptionService.add(individualDescription);
+			  contactDescriptionService.add(contactDescription);
+			  resumeService.add(resume);
+			  workHistoryService.add(workHistory);
+			  skillService.add(skill);
+			  educationalHistoryService.add(educationalHistory);
+		        
+		  }
+		  else{
+			  IndividualDescription individualDescription = new IndividualDescription(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  ContactDescription contactDescription = new ContactDescription(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  ContactDescription contactDescriptionForResume = new ContactDescription(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  Resume resume = new Resume(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+			  Advertise advertise = new Advertise(invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter, invalidInitialParameter);
+
+			  resume.setIndividualDescription(individualDescription);
+			  resume.setContactDescription(contactDescriptionForResume);
+			  advertise.setContactDescription(contactDescription);
+			  advertise.setResume(resume);
+			  user.setResume(resume);
+			  
+			  individualDescriptionService.add(individualDescription);
+			  contactDescriptionService.add(contactDescription);
+			  contactDescriptionService.add(contactDescriptionForResume);
+			  resumeService.add(resume);
+			  advertiseService.add(advertise);
+		  }
+		  
+		  
+
+          if(null != user ) 
 	        	userService.add(user);
 	        ModelAndView model = new ModelAndView("Registration");
 	        model.addObject("name", user.getUsername());

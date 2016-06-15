@@ -129,6 +129,28 @@ public class ContactDescriptionDAOImpl implements ContactDescriptionDAO {
 		
 	}
 
+	@Override
+	public int search(ContactDescription contactDescription) {
+		Session session = sessionFactory.getCurrentSession();
+		ContactDescription p = null ;
+		int contactDescriptionId = 0;
+		try {
+			session.beginTransaction();
+			String sql = "select c.*"+" from contact_description c"+
+			" where c.address = '" + contactDescription.getAddress() + "' and "
+			+ " c.phone = '" + contactDescription.getPhone() + "' and "
+			+ " c.email = '" + contactDescription.getEmail() + "' ;";
+			SQLQuery query = session.createSQLQuery(sql).addEntity(ContactDescription.class);
+			p = (ContactDescription) query.uniqueResult();
+			contactDescriptionId = p.getId();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return contactDescriptionId;
+	}
+
 	
 /*	@Override
 	public void save(ContactDescription p) {

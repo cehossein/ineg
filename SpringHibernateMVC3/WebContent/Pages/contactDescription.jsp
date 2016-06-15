@@ -16,7 +16,7 @@
 	<% int resume_id = (int)request.getAttribute("resume_id");%>
 	<% session.setAttribute("resume_id",(Integer)resume_id); %>
 	
-	<form:form  name="updateContactDescriptionForm" method="post" action= "executeUpdateContactDescription"  modelAttribute="contactDescription" >
+	<form:form  name="updateContactDescriptionForm" method="post" action= "createContactDescription"  modelAttribute="contactDescription" >
         <div align="center">
             <h1>Your Contact Description</h1>
             <table border="1">
@@ -30,7 +30,7 @@
                        <th>Your Address</th>   <td> <input name="address" value="${contactDescription.address}"></td>
                 </tr>
             	<tr>
-                <td><input type="submit"  value="Click to Update Contact Description"></td> 
+                <td><input type="submit"  value="Click to Create Contact Description"></td> 
            		 </tr>
             </table>
         </div>

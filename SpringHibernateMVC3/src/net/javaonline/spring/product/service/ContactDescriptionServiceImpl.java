@@ -48,4 +48,9 @@ public class ContactDescriptionServiceImpl implements ContactDescriptionService 
 	public void updateByIdAndObject(int resume_id,ContactDescription c){
 		this.contactDescriptionDAO.updateByIdAndObject(resume_id,c);
 	}
+
+	@Override
+	public int search(ContactDescription contactDescription) {
+		return this.contactDescriptionDAO.search(contactDescription);
+	}
 }

@@ -15,5 +15,6 @@ public interface ContactDescriptionDAO {
 	public void updateByIdAndObject(int resume_id,ContactDescription c);
 	/*public void save(ContactDescription i);
 	public List<ContactDescription> list();       ///
-*/	
+*/
+	public int search(ContactDescription contactDescription);	
 }
