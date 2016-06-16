@@ -15,4 +15,5 @@ public interface AdvertiseService {
 	public void remove(int skill_id,int resume_id);
 	//public void updateByNameAndObject(String name,WorkHistory c);
 	public void add(Advertise advertise, int resume_id, int contactDescrptionId);
+	public int search(Advertise advertise);
 }

@@ -24,6 +24,7 @@ import net.javaonline.spring.product.model.IndividualDescription;
 import net.javaonline.spring.product.model.ItemMaster;
 import net.javaonline.spring.product.model.Resume;
 import net.javaonline.spring.product.model.Skill;
+import net.javaonline.spring.product.model.SkillAdvertise;
 import net.javaonline.spring.product.model.User;
 import net.javaonline.spring.product.model.WorkHistory;
 import net.javaonline.spring.product.service.AdvertiseService;
@@ -31,6 +32,7 @@ import net.javaonline.spring.product.service.ContactDescriptionService;
 import net.javaonline.spring.product.service.EducationalHistoryService;
 import net.javaonline.spring.product.service.IndividualDescriptionService;
 import net.javaonline.spring.product.service.ResumeService;
+import net.javaonline.spring.product.service.SkillAdvertiseService;
 import net.javaonline.spring.product.service.SkillService;
 import net.javaonline.spring.product.service.UserService;
 import net.javaonline.spring.product.service.WorkHistoryService;
@@ -95,6 +97,14 @@ private SkillService skillService;
 	@Qualifier(value="skillService")
 	public void setSkillService(SkillService ss){
 		this.skillService = ss;
+	}
+	
+private SkillAdvertiseService skillAdvertiseService;
+	
+	@Autowired(required=true)
+	@Qualifier(value="skillAdvertiseService")
+	public void setSkillAdvertiseService(SkillAdvertiseService sas){
+		this.skillAdvertiseService = sas;
 	}
 	
 private AdvertiseService advertiseService;
@@ -187,6 +197,128 @@ private AdvertiseService advertiseService;
 	        return model;
 	    }
 	 
+		
+		//Skill Advertise
+		
+		@RequestMapping(value="/deleteSkillsAdvertise")
+	    public ModelAndView deleteSkillsAdvertise(@RequestParam(value="id", required=true) int id
+	    		, HttpSession httpSession) {
+	        ModelAndView model = new ModelAndView("updateSkillsAdvertise");
+
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    int advertiseId = (int) httpSession.getAttribute("advertiseId");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    model.addObject("advertiseId",advertiseId);
+		    
+	        skillAdvertiseService.remove(id,advertiseId);
+	        List<SkillAdvertise> skills = skillAdvertiseService.list(advertiseId);
+	        model.addObject("item", new SkillAdvertise());
+		    model.addObject("itemList", skills);
+		    
+	        return model;
+	    }
+	
+	
+	@RequestMapping(value="/executeUpdateSkillsAdvertiseAdd",method = RequestMethod.POST)
+	public ModelAndView executeUpdateSkillsAdvertiseAdd(@ModelAttribute("additem") SkillAdvertise additem, HttpSession httpSession) {
+		ModelAndView model = new ModelAndView("updateSkillsAdvertise");
+
+	    String username = (String) httpSession.getAttribute("username");
+	    int resume_id = (int) httpSession.getAttribute("resume_id");
+	    int advertiseId = (int) httpSession.getAttribute("advertiseId");
+	    String type = (String) httpSession.getAttribute("type");
+	    model.addObject("username", username);
+	    model.addObject("resume_id", resume_id);
+	    model.addObject("type", type);
+	    model.addObject("advertiseId",advertiseId);
+	    
+		skillAdvertiseService.add(additem,advertiseId);
+		List<SkillAdvertise> skills = skillAdvertiseService.list(advertiseId);
+	    model.addObject("item", new SkillAdvertise());
+	    model.addObject("itemList", skills);
+	    
+	    return model;
+	}
+	
+	
+	@RequestMapping(value="/executeUpdateSkillsAdvertiseUpdate",method = RequestMethod.POST)
+	public ModelAndView executeUpdateSkillsAdvertiseUpdate(@ModelAttribute("item") SkillAdvertise item, HttpSession httpSession) {
+		SkillAdvertise skillAdvertise = (SkillAdvertise) httpSession.getAttribute("exist_item");
+		ModelAndView model = new ModelAndView("updateSkillsAdvertise");
+
+	    String username = (String) httpSession.getAttribute("username");
+	    int resume_id = (int) httpSession.getAttribute("resume_id");
+	    int advertiseId = (int) httpSession.getAttribute("advertiseId");
+	    String type = (String) httpSession.getAttribute("type");
+	    model.addObject("username", username);
+	    model.addObject("resume_id", resume_id);
+	    model.addObject("type", type);
+	    model.addObject("advertiseId",advertiseId);
+	    
+		skillAdvertiseService.remove(skillAdvertise.getId(),advertiseId);
+		skillAdvertiseService.add(item,advertiseId);
+		List<SkillAdvertise> skillsAdvertise = skillAdvertiseService.list(advertiseId);
+	    model.addObject("item", new SkillAdvertise());
+	    model.addObject("itemList", skillsAdvertise);
+	    return model;
+	}
+	
+	
+	
+			@RequestMapping(value="/updateSkillsAdvertise",method = RequestMethod.POST)
+	public ModelAndView updateSkillsAdvertise(@ModelAttribute("user") User user, HttpSession httpSession) {
+	    ModelAndView model = new ModelAndView("updateSkillsAdvertise");
+	   
+	    String username = (String) httpSession.getAttribute("username");
+	    int resume_id = (int) httpSession.getAttribute("resume_id");
+	    String type = (String) httpSession.getAttribute("type");
+	    model.addObject("username", username);
+	    model.addObject("resume_id", resume_id);
+	    model.addObject("type", type);
+	    
+	    SkillAdvertise skillAdvertise = new SkillAdvertise();
+	    List<SkillAdvertise> skillsAdvertise = skillAdvertiseService.list(resume_id);
+	    model.addObject("item", skillAdvertise);
+	    model.addObject("itemList", skillsAdvertise);
+	    
+        return model;
+	}
+	
+
+	  @RequestMapping(value="/editSkillsAdvertise")
+	    public ModelAndView editSkillsAdvertise(@RequestParam(value="id", required=true) int id
+	    		, HttpSession httpSession) {
+	        ModelAndView model = new ModelAndView("updateSkillsAdvertise");
+
+		    String username = (String) httpSession.getAttribute("username");
+		    int resume_id = (int) httpSession.getAttribute("resume_id");
+		    int advertiseId = (int) httpSession.getAttribute("advertiseId");
+		    String type = (String) httpSession.getAttribute("type");
+		    model.addObject("username", username);
+		    model.addObject("resume_id", resume_id);
+		    model.addObject("type", type);
+		    model.addObject("advertiseId",advertiseId);
+		    
+			  List<SkillAdvertise> skillsAdvertise = skillAdvertiseService.list(advertiseId);
+		        SkillAdvertise skillAdvertise = skillAdvertiseService.getById(id, advertiseId);
+		        model.addObject("item", skillAdvertise);
+			    model.addObject("itemList", skillsAdvertise);
+		    
+	        return model;
+	    }
+//End Skill Advertise
+		
+		
+		
+		
+		
+		
+		
+		
 		@RequestMapping(value="/contactDescription")
 		public ModelAndView contactDescription(HttpSession httpSession) {
 		    ModelAndView model = new ModelAndView("contactDescription");
@@ -225,7 +357,7 @@ private AdvertiseService advertiseService;
 		
 		@RequestMapping(value="/executeCreateOtherProperties",method = RequestMethod.POST)
 		public ModelAndView executeCreateOtherProperties(@ModelAttribute("advertise") Advertise advertise, HttpSession httpSession) {
-		    ModelAndView model = new ModelAndView("HomePage");//
+		    ModelAndView model = new ModelAndView("updateSkillsAdvertise");//
 		   
 		    String username = (String) httpSession.getAttribute("username");
 		    int resume_id = (int) httpSession.getAttribute("resume_id");
@@ -235,11 +367,9 @@ private AdvertiseService advertiseService;
 		    model.addObject("resume_id", resume_id);
 		    model.addObject("type", type);
 		    
-		    System.err.println("----------------->" + advertise.getAdvText());
-		    System.err.println("----------------->" + advertise.getCityName());
-		    System.err.println("----------------->" + advertise.getCoName());
-
 		    advertiseService.add(advertise, resume_id , contactDescrptionId);
+		    int advertiseId = advertiseService.search(advertise);
+		    model.addObject("advertiseId" , advertiseId);
 	        return model;
 		}
 		
@@ -292,7 +422,6 @@ private AdvertiseService advertiseService;
 		    
 		    
 		   String search_word = httpServletRequest.getParameter("search_word");
-	       System.err.println("---------------> search_word" + httpServletRequest.getParameter("search_word"));
 	       List<Resume> resumes  = skillService.list(search_word);
 	       model.addObject("item", new Resume());
 		   model.addObject("itemList",resumes);

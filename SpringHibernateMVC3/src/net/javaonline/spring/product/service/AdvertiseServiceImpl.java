@@ -59,6 +59,11 @@ public class AdvertiseServiceImpl implements AdvertiseService {
 		
 	}
 
+	@Override
+	public int search(Advertise advertise) {
+		return this.advertiseDAO.search(advertise);
+	}
+
 
 	
 /*	@Override

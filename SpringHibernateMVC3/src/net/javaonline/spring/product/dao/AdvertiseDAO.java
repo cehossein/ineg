@@ -22,4 +22,6 @@ public interface AdvertiseDAO {
 	/*List<Advertise> list(String skill_name);*/
 
 	public void add(Advertise advertise, int resume_id, int contactDescrptionId);
+
+	public int search(Advertise advertise);
 }

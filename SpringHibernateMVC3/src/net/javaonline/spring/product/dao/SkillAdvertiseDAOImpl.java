@@ -8,25 +8,26 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.javaonline.spring.product.model.SkillAdvertise;
 import net.javaonline.spring.product.model.Advertise;
 
 @Transactional
 @Repository
-public class AdvertiseDAOImpl implements AdvertiseDAO {
+public class SkillAdvertiseDAOImpl implements SkillAdvertiseDAO {
 	
-	public AdvertiseDAOImpl() {
+	public SkillAdvertiseDAOImpl() {
 		super();
 	}
 
 
 	private SessionFactory sessionFactory;
 	
-	public AdvertiseDAOImpl(SessionFactory sf) {
+	public SkillAdvertiseDAOImpl(SessionFactory sf) {
 		this.sessionFactory = sf;
 	}
 
 	@Override
-	public void add(Advertise p) {
+	public void add(SkillAdvertise p) {
 		/*Session session = this.sessionFactory.getCurrentSession();
 		session.persist(p);*/
 		Session session = sessionFactory.getCurrentSession();
@@ -41,18 +42,18 @@ public class AdvertiseDAOImpl implements AdvertiseDAO {
 	}
 	
 	@Override
-	public void add(Advertise p , int resume_id) {
+	public void add(SkillAdvertise p , int advertise_id) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
-			/*session.beginTransaction();
-			String sql = "insert into skill(resume_id,"+
+			session.beginTransaction();
+			String sql = "insert into skill_adv(advertise_id,"+
 			"id,name) " +
 					"values("+
-					"'"+resume_id+"'"+
+					"'"+advertise_id+"'"+
 					",'"+p.getId()+"'"+
 					",'"+p.getName()+"'"+
-					");";*/
-			/*session.createSQLQuery(sql).executeUpdate();*/
+					");";
+			session.createSQLQuery(sql).executeUpdate();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -61,7 +62,7 @@ public class AdvertiseDAOImpl implements AdvertiseDAO {
 	}
 
 	@Override
-	public void update(Advertise p) {
+	public void update(SkillAdvertise p) {
 		/*Session session = this.sessionFactory.getCurrentSession();
 		session.update(p);*/
 		Session session = sessionFactory.getCurrentSession();
@@ -78,14 +79,14 @@ public class AdvertiseDAOImpl implements AdvertiseDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Advertise> list(int resume_id) {
+	public List<SkillAdvertise> list(int advertise_id) {
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
-		String sql = "select skill.*"+" from resume inner join skill on resume.id = skill.resume_id"+
-		" where resume.id = '" + resume_id + "';";
-		List<Advertise> items = null;
+		String sql = "select skill_adv.*"+" from advertise inner join skill_adv on advertise.id = skill_adv.advertise_id"+
+		" where advertise.id = '" + advertise_id + "';";
+		List<SkillAdvertise> items = null;
 		try {
-			items = session.createSQLQuery(sql).addEntity(Advertise.class).list();
+			items = session.createSQLQuery(sql).addEntity(SkillAdvertise.class).list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -95,17 +96,17 @@ public class AdvertiseDAOImpl implements AdvertiseDAO {
 	}
 
 	@Override
-	public Advertise getById(int skill_id,int resume_id) {
+	public SkillAdvertise getById(int skill_id,int advertise_id) {
 		Session session = sessionFactory.getCurrentSession();
-		Advertise item=null;
+		SkillAdvertise item=null;
 		try {
 			session.beginTransaction();
-			String sql = "select skill.*" +
-			" from resume inner join skill on resume.id = skill.resume_id"+
-			" where skill.id = '" + skill_id +
-			"' and resume_id = '" + resume_id + 
+			String sql = "select skill_adv.*" +
+			" from advertise inner join skill_adv on advertise.id = skill_adv.advertise_id"+
+			" where skill_adv.id = '" + skill_id +
+			"' and skill_adv.advertise_id = '" + advertise_id + 
 			"';";
-			item = (Advertise) session.createSQLQuery(sql).addEntity(Advertise.class).uniqueResult();
+			item = (SkillAdvertise) session.createSQLQuery(sql).addEntity(SkillAdvertise.class).uniqueResult();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -116,14 +117,14 @@ public class AdvertiseDAOImpl implements AdvertiseDAO {
 	
 
 	@Override
-	public void remove(int skill_id,int resume_id) {
+	public void remove(int skill_id,int advertise_id) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
 			session.beginTransaction();
 			String sql = "delete" +
-			" from skill"+
-			" where id = '" + skill_id +
-			"' and resume_id = '" + resume_id + 
+			" from skill_adv"+
+			" where skill_adv.id = '" + skill_id +
+			"' and skill_adv.advertise_id = '" + advertise_id + 
 			"';";
 			session.createSQLQuery(sql).executeUpdate();
 		} catch (HibernateException e) {
@@ -134,65 +135,18 @@ public class AdvertiseDAOImpl implements AdvertiseDAO {
 		
 		//return item;
 	}
-
-	@Override
-	public void add(Advertise advertise, int resume_id, int contactDescrptionId) {
-		Session session = sessionFactory.getCurrentSession();
-		try {
-			session.beginTransaction();
-			String sql = "insert into advertise(resume_id,cont_id,"+
-			"propagate_date,co_name,wage,adv_text,title,city_name) " +
-					"values("+
-					"'"+resume_id+"'"+
-					",'"+contactDescrptionId+"'"+
-					",'"+advertise.getPropagateDate()+"'"+
-					",'"+advertise.getCoName()+"'"+
-					",'"+advertise.getWage()+"'"+
-					",'"+advertise.getAdvText()+"'"+
-					",'"+advertise.getTitle()+"'"+
-					",'"+advertise.getCityName()+"'"+
-					");";
-			session.createSQLQuery(sql).executeUpdate();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
-		
-	}
-
-	@Override
-	public int search(Advertise advertise) {
-		Session session = sessionFactory.getCurrentSession();
-		Advertise item=null;
-		int AdvertiseId = 0;
-		try {
-			session.beginTransaction();
-			String sql = "select advertise.*" +
-			" from advertise"+
-			" where advertise.propagate_date = '" + advertise.getPropagateDate() +
-			"';";
-			item = (Advertise) session.createSQLQuery(sql).addEntity(Advertise.class).uniqueResult();
-			AdvertiseId = item.getId();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
-		return AdvertiseId;
-	}
 	
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Advertise> list(String skill_name) {
 		Session session = sessionFactory.getCurrentSession();
 		List<Advertise> items = null;
 		try {
 			session.beginTransaction();
-			String sql = "select resume.*"+" from resume inner join skill on resume.id = skill.resume_id"+
-			" where skill.name = '" + skill_name + "';";
+			String sql = "select advertise.*"+" from advertise inner join skill_adv on advertise.id = skill_adv.advertise_id"+
+			" where skill_adv.name = '" + skill_name + "';";
 			
-			items = (List<Resume>)session.createSQLQuery(sql).addEntity(Resume.class).list();
+			items = (List<Advertise>)session.createSQLQuery(sql).addEntity(Advertise.class).list();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -202,7 +156,7 @@ public class AdvertiseDAOImpl implements AdvertiseDAO {
 		
 		return items;
 	}
-	*/
+	
 	
 /*	@Override/////////////////
 	public void updateByNameAndObject(String name, Skill c) {
