@@ -140,7 +140,7 @@ The Hidden Value is <%=hidden %> --%>
         	</table> 
     		</form:form> 
     		
-    		<form:form method="POST" modelAttribute="user" action="updateContactDescription"> 
+    		<form:form method="POST" modelAttribute="user" action="updateCoDescription"> 
               <table> 
               	<tr>               
  				<td> <input name="username" type="hidden" value= <%=username %> /> </td> 

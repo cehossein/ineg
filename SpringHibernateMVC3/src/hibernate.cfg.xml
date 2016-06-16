@@ -51,6 +51,8 @@
 		<mapping class="net.javaonline.spring.product.model.Advertise" />
 
 		<mapping class="net.javaonline.spring.product.model.SkillAdvertise" />
+
+		<mapping class="net.javaonline.spring.product.model.Company" />
 		
 	</session-factory>
 

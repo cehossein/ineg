@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.javaonline.spring.product.dao.ItemMasterDAO;
 import net.javaonline.spring.product.model.Advertise;
+import net.javaonline.spring.product.model.Company;
 import net.javaonline.spring.product.model.ContactDescription;
 import net.javaonline.spring.product.model.EducationalHistory;
 import net.javaonline.spring.product.model.IndividualDescription;
@@ -28,6 +29,7 @@ import net.javaonline.spring.product.model.SkillAdvertise;
 import net.javaonline.spring.product.model.User;
 import net.javaonline.spring.product.model.WorkHistory;
 import net.javaonline.spring.product.service.AdvertiseService;
+import net.javaonline.spring.product.service.CompanyService;
 import net.javaonline.spring.product.service.ContactDescriptionService;
 import net.javaonline.spring.product.service.EducationalHistoryService;
 import net.javaonline.spring.product.service.IndividualDescriptionService;
@@ -114,7 +116,14 @@ private AdvertiseService advertiseService;
 	public void setAdvertiseService(AdvertiseService as){
 		this.advertiseService = as;
 	}
+
+private CompanyService companyService;
 	
+	@Autowired(required=true)
+	@Qualifier(value="companyService")
+	public void setCopmanyService(CompanyService cs){
+		this.companyService = cs;
+	}
 	
 	  @RequestMapping(value="/list")
 	    public ModelAndView list() {
@@ -197,6 +206,41 @@ private AdvertiseService advertiseService;
 	        return model;
 	    }
 	 
+		//Company
+		
+@RequestMapping(value="/updateCoDescription",method = RequestMethod.POST)
+	public ModelAndView updateCoDescription(@ModelAttribute("user") User user, HttpSession httpSession) {
+    ModelAndView model = new ModelAndView("updateCoDescription");
+   
+    String username = (String) httpSession.getAttribute("username");
+    int resume_id = (int) httpSession.getAttribute("resume_id");
+    String type = (String) httpSession.getAttribute("type");
+    model.addObject("username", username);
+    model.addObject("resume_id", resume_id);
+    model.addObject("type", type);
+       
+    return model;
+}
+
+@RequestMapping(value="/createCoDescription",method = RequestMethod.POST)
+public ModelAndView createCoDescription(@ModelAttribute("company") Company company, HttpSession httpSession) {
+	ModelAndView model = new ModelAndView("HomePage");
+
+    String username = (String) httpSession.getAttribute("username");
+    int resume_id = (int) httpSession.getAttribute("resume_id");
+    String type = (String) httpSession.getAttribute("type");
+    model.addObject("username", username);
+    model.addObject("resume_id", resume_id);
+    model.addObject("type", type);
+    
+	companyService.add(company,resume_id);
+    
+    return model;
+}
+		
+		
+		//End Company
+		
 		
 		//Skill Advertise
 		
