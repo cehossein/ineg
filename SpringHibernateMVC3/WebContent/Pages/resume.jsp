@@ -7,6 +7,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Update Your Resume</title>
+   <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/js/jquery.js" />"></script>
+    <script src="<c:url value="/resources/js/jquery2.js" />"></script>
+    <script src="<c:url value="/resources/js/click.js" />"></script>
+    
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/themes/default/easyui.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/themes/icon.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/demo.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/jquery-easyui-1.4.4/jquery.min.js" />"></script>   
+	<script src="<c:url value="/resources/jquery-easyui-1.4.4/jquery.easyui.min.js" />"></script>   
    
 	<body>
 	
@@ -17,47 +27,57 @@
 	<% int resume_id = (int)request.getAttribute("resume_id");%>
 	<% session.setAttribute("resume_id",(Integer)resume_id); %>
 	
-	<form:form  name="resumeForm" method="post" action="resumeUpdate" modelAttribute="resume" >
-        <div align="center">
-            <h1>Resume</h1>
-            <table border="1">
-                <tr>
-                       <th>Favoritiy City Name</th>   <td> <input name="favoritycity" value="${resume.favoritycity}"></td>        
+	
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-panel" title=" صفحه تکمیل اطلاعات رزومه شخصی" style="width:400px">
+		<div style="padding:10px 60px 20px 60px">
+	    <form:form id="ff" method="post" action="resumeUpdate" modelAttribute="resume">
+	    	<h1>مشخصات کاربر</h1>
+	    	<table cellpadding="5">
+	    	    <tr>
+                       <th>نام شهر</th>   <td> <input class="easyui-textbox" data-options="required:true" name="favoritycity" value="${resume.favoritycity}"></td>        
                 </tr>
                 <tr>
-                       <th>Favority Job</th>   <td> <input name="favorityjob" value="${resume.favorityjob}"></td>
+                       <th>عنوان شغل</th>   <td> <input class="easyui-textbox" data-options="required:true" name="favorityjob" value="${resume.favorityjob}"></td>
                 </tr>
                 <tr>
-                       <th>Requested Wage</th>   <td> <input name="requestedwage" value="${resume.requestedwage}"></td>
+                       <th>حقوق درخواستی</th>   <td> <input class="easyui-textbox" data-options="required:true" name="requestedwage" value="${resume.requestedwage}"></td>
                 </tr>
                 <tr>
-                       <th>Name</th>   <td> <input name="name" value="${resume.name}"></td>
+                       <th>نام</th>   <td> <input class="easyui-textbox" data-options="required:true" name="name" value="${resume.name}"></td>
                 </tr>
                 <tr>
-                       <th>Last Name</th>   <td> <input name="lastname" value="${resume.lastname}"></td>
+                       <th>فامیلی</th>   <td> <input class="easyui-textbox" data-options="required:true" name="lastname" value="${resume.lastname}"></td>
                 </tr>
                 <tr>
-                       <th>Marriage Status</th>   <td> <input name="marriagestatus" value="${resume.marriagestatus}"></td>
+                       <th>وضعیت تاهل</th>   <td> <input class="easyui-textbox" data-options="required:true" name="marriagestatus" value="${resume.marriagestatus}"></td>
                 </tr>
                 <tr>
-                       <th>Sex</th>   <td> <input name="sex" value="${resume.sex}"></td>
+                       <th>جنسیت</th>   <td> <input class="easyui-textbox" data-options="required:true" name="sex" value="${resume.sex}"></td>
                 </tr>
                 <tr>
-                       <th>Email</th>   <td> <input name="email" value="${resume.email}"></td>
+                       <th>ایمیل</th>   <td> <input class="easyui-textbox" data-options="required:true" name="email" value="${resume.email}"></td>
                 </tr>
                 <tr>
-                       <th>User Type</th>   <td><select name="type"> 
-                       							<option value="Employee">Employee</option>
- 												<option value="Employer">Employer</option>
+                       <th>نوع کاربر</th>   <td><select name="type"> 
+                       							<option  value="Employee">کارمند</option>
+ 												<option  value="Employer">کارفرما</option>
 												</select>
                         					</td>
                 </tr>
                <tr>
-                       <th> <input type="submit" value="Add New User">   </th>      
+                       <th> <input class="easyui-linkbutton" type="submit" value="ثبت">   </th>  
+                       <th> <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">پاک کردن</a> </th>    
                 </tr>
-            </table>
-        </div>
-	</form:form>
+	    	</table>
+	    </form:form>
+	    </div>
+	</div>
+	<script>
+		function clearForm(){
+			$('#ff').form('clear');
+		}
+	</script>
 	</body>
     
   </html>

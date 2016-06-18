@@ -7,6 +7,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Update Work History</title>
+<link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/js/jquery.js" />"></script>
+    <script src="<c:url value="/resources/js/jquery2.js" />"></script>
+    <script src="<c:url value="/resources/js/click.js" />"></script>
+    
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/themes/default/easyui.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/themes/icon.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/demo.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/jquery-easyui-1.4.4/jquery.min.js" />"></script>   
+	<script src="<c:url value="/resources/jquery-easyui-1.4.4/jquery.easyui.min.js" />"></script>   
+	
 </head>
 <body>
 	<% String type = (String)request.getAttribute("type");%>
@@ -17,72 +28,81 @@
 	<% session.setAttribute("resume_id",(Integer)resume_id); %>
 	<% Object exist_item = request.getAttribute("item");%>
 	<% session.setAttribute("exist_item",exist_item); %>
-    <a href="HomePage">   Go To Home Page   </a>
-    <form:form name="updateWorkHistoryFormUpdate" method="post" action="executeUpdateWorkHistoryUpdate" modelAttribute="item">
-        <div align="center">
-            <h1>Work History Detail</h1>
-            <table border="1">
-                <tr>
-                       <th>Your Start Date</th>   <td> <input name="startdate" value="${item.startdate}"></td>
+    <a class="easyui-linkbutton" href="HomePage">برگشت به صفحه خانگی</a>
+    
+    <div style="margin:20px 0;"></div>
+	<div class="easyui-panel" title="صفحه بروز رسانی رزومه کاری" style="width:500;">
+		<div style="padding:10px 60px 20px 60px">
+	    <form:form id="ff" method="post" action="executeUpdateWorkHistoryUpdate" modelAttribute="item" >
+	    	<h1>مشخصات کاری</h1>
+	    	<table cellpadding="5">
+	    		<tr>
+                       <th>تاریخ شروع</th>   <td> <input class="easyui-textbox" data-options="required:true" name="startdate" value="${item.startdate}"></td>
                 </tr>
                 <tr>
-                       <th>Your Finish Date</th>   <td> <input name="finishdate" value="${item.finishdate}"></td>
+                       <th>تاریخ پایان</th>   <td> <input class="easyui-textbox" data-options="required:true" name="finishdate" value="${item.finishdate}"></td>
                 </tr>
                 <tr>
-                       <th>Your Work Field</th>   <td> <input name="workfield" value="${item.workfield}"></td>
+                       <th>فیلد کاری</th>   <td> <input class="easyui-textbox" data-options="required:true" name="workfield" value="${item.workfield}"></td>
                 </tr>
                 <tr>
-                       <th>Your Department Name</th>   <td> <input name="departmentname" value="${item.departmentname}"></td>
+                       <th>نام شرکت</th>   <td> <input class="easyui-textbox" data-options="required:true" name="departmentname" value="${item.departmentname}"></td>
                 </tr>
                 <tr>
-                       <th>Your Last Reward</th>   <td> <input name="lastreward" value="${item.lastreward}"></td>
+                       <th>آخرین حقوق دریافتی</th>   <td> <input class="easyui-textbox" data-options="required:true" name="lastreward" value="${item.lastreward}"></td>
                 </tr> 
             	<tr>
-                <td><input type="submit"  value="Click to Update Work History"></td> 
+            	       <th> <input class="easyui-linkbutton" type="submit" value="لطفا برای بروز رسانی کلیک کنید">   </th>  
+                       <th> <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">پاک کن</a> </th>    
            		 </tr>
             </table>
-        
-
-        </form:form>
-    <form:form name="updateWorkHistoryFormAdd" method="post" action="executeUpdateWorkHistoryAdd" modelAttribute="additem">
-        
-            <h1>Work History Detail</h1>
-            <table border="1">
-                <tr>
-                       <th>Your Start Date</th>   <td> <input name="startdate" value="${additem.startdate}"></td>
-                </tr>
-                <tr>
-                       <th>Your Finish Date</th>   <td> <input name="finishdate" value="${additem.finishdate}"></td>
-                </tr>
-                <tr>
-                       <th>Your Work Field</th>   <td> <input name="workfield" value="${additem.workfield}"></td>
-                </tr>
-                <tr>
-                       <th>Your Department Name</th>   <td> <input name="departmentname" value="${additem.departmentname}"></td>
-                </tr>
-                <tr>
-                       <th>Your Last Reward</th>   <td> <input name="lastreward" value="${additem.lastreward}"></td>
-                </tr> 
-            	<tr>
-                <td><input type="submit"  value="Click to Add Work History"></td> 
-           		 </tr>
-            </table>
+            </form:form>
         </div>
+	    </div>
 
-        </form:form>
-        
-         <div align="center">
-            <h1>Work History List</h1>
-            <table border="1">
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-panel" title="صفحه افزودن به رزومه کاری" style="width:500;">
+		<div style="padding:10px 60px 20px 60px">
+			<form:form id="ff2" method="post" action="executeUpdateWorkHistoryAdd" modelAttribute="additem" >
+	    	<h1>مشخصات کاری</h1>
+	    	<table cellpadding="5">
+	    		<tr>
+                       <th>تاریخ شروع</th>   <td> <input class="easyui-textbox" data-options="required:true" name="startdate" value="${additem.startdate}"></td>
+                </tr>
+                <tr>
+                       <th>تاریخ پایان</th>   <td> <input class="easyui-textbox" data-options="required:true" name="finishdate" value="${additem.finishdate}"></td>
+                </tr>
+                <tr>
+                       <th>فیلد کاری</th>   <td> <input class="easyui-textbox" data-options="required:true" name="workfield" value="${additem.workfield}"></td>
+                </tr>
+                <tr>
+                       <th>نام شرکت</th>   <td> <input class="easyui-textbox" data-options="required:true" name="departmentname" value="${additem.departmentname}"></td>
+                </tr>
+                <tr>
+                       <th>آخرین حقوق دریافتی</th>   <td> <input class="easyui-textbox" data-options="required:true" name="lastreward" value="${additem.lastreward}"></td>
+                </tr> 
+            	<tr>
+            	       <th> <input class="easyui-linkbutton" type="submit" value="لطفا برای اضافه کردن این مورد  کلیک کنید">   </th>  
+                       <th> <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">پاک کن</a> </th>    
+           		 </tr>
+            </table>
+            </form:form>
+		</div>
+		</div>
+	    <div style="margin:20px 0;"></div> 
+	 <div style="margin:20px 0;"></div>
+	<div class="easyui-panel" title="اطلاعات فعلی رزومه کاری شما" style="width:500;">
+		<div style="padding:10px 60px 20px 60px">
+		<table border="1">
             <tr>
-                <th>S.No.</th>
-                <th>Start Date</th>
-                <th>Finish Date</th>
-                <th>Work Field</th>
-                <th>Department Name</th>
-                <th>Last Reward</th>
-                <th>Action</th>
-                <th>Action</th>
+                <th>شماره</th>
+                <th>تاریخ شروع</th>
+                <th>تاریخ پایان</th>
+                <th>فیلد کاری</th>
+                <th>نام شرکت</th>
+                <th>آخرین حقوق دریافتی</th>
+                <th>عملکرد</th>
+                <th>عملکرد</th>
                 
                 
                  </tr>
@@ -94,16 +114,22 @@
                     <td>${item.workfield}</td>
                     <td>${item.departmentname}</td>
                     <td>${item.lastreward}</td>
-                    <td><a href="editWorkHistory?startdate=${item.startdate}&finishdate=${item.finishdate}&departmentname=${item.departmentname}">Edit</a></td>  
-                   <!--  url mishe : 
-                    edit?id=....  injori mikhad parameter ha ro daste 
-                    controller edit beresone -->
-    				<td><a href="deleteWorkHistory?startdate=${item.startdate}&finishdate=${item.finishdate}&departmentname=${item.departmentname}">Delete</a></td>  
+                    <td><a class="easyui-linkbutton" href="editWorkHistory?startdate=${item.startdate}&finishdate=${item.finishdate}&departmentname=${item.departmentname}">ویرایش</a></td>  
+    				<td><a class="easyui-linkbutton" href="deleteWorkHistory?startdate=${item.startdate}&finishdate=${item.finishdate}&departmentname=${item.departmentname}">حذف</a></td>  
                              
                 </tr>
                 </c:forEach>             
             </table>
-        </div>             
         
+        </div>
+	    </div>           
+    <script>
+		function clearForm(){
+			$('#ff').form('clear');
+		}
+		function clearForm(){
+			$('#ff2').form('clear');
+		}
+	</script>
     </body>
 </html>

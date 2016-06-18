@@ -7,6 +7,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Update Work History</title>
+<link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/js/jquery.js" />"></script>
+    <script src="<c:url value="/resources/js/jquery2.js" />"></script>
+    <script src="<c:url value="/resources/js/click.js" />"></script>
+    
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/themes/default/easyui.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/themes/icon.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/jquery-easyui-1.4.4/demo.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/jquery-easyui-1.4.4/jquery.min.js" />"></script>   
+	<script src="<c:url value="/resources/jquery-easyui-1.4.4/jquery.easyui.min.js" />"></script>   
+	
 </head>
 <body>
 	<% String type = (String)request.getAttribute("type");%>
